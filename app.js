@@ -39,14 +39,48 @@ class AudioManager {
     }
   }
 
+  playChurchBell(duration = 3.0, volume = 0.8) {
+    this.init();
+    
+    const fundamentalFreq = 330;
+    const harmonics = [1, 2, 2.4, 3, 4.2, 5.4];
+    const amplitudes = [1, 0.6, 0.4, 0.3, 0.2, 0.1];
+    
+    const startTime = this.audioContext.currentTime;
+    
+    harmonics.forEach((harmonic, index) => {
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(this.audioContext.destination);
+      
+      oscillator.frequency.value = fundamentalFreq * harmonic;
+      oscillator.type = 'sine';
+      
+      const amp = amplitudes[index] * volume;
+      
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(amp, startTime + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+      
+      oscillator.start(startTime);
+      oscillator.stop(startTime + duration);
+    });
+  }
+
   playIntervalAlert(intervalNumber, totalIntervals) {
     const isFinal = intervalNumber === totalIntervals;
-    const frequency = isFinal ? 880 : 440;
-    const duration = isFinal ? 3.0 : 0.3;
-    const volume = isFinal ? 1.0 : 0.5;
-    const count = isFinal ? 1 : intervalNumber;
     
-    this.playTone(frequency, duration, count, volume);
+    if (isFinal) {
+      this.playChurchBell(3.0, 0.8);
+    } else {
+      const frequency = 440;
+      const duration = 0.3;
+      const volume = 0.5;
+      const count = intervalNumber;
+      this.playTone(frequency, duration, count, volume);
+    }
   }
 }
 

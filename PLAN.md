@@ -43,11 +43,16 @@ Constraint:
 | Interval | Sound | Count | Duration |
 |----------|-------|-------|----------|
 | 1 to (n-1) | Sound A: Mid tone (440Hz) | n rings | 0.3s each |
-| n (final) | Sound B: High pitch (880Hz) | 1 ring | 3.0s (long) |
+| n (final) | Church Bell: Rich harmonics (330Hz fundamental + overtones) | 1 ring | 3.0s (long decay) |
 
 **Examples:**
-- 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound B x1 (3s long final ring)
-- 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound B x1 (3s long final ring)
+- 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Church Bell (3s long ring)
+- 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Church Bell (3s long ring)
+
+**Church Bell Sound:**
+- Uses multiple harmonics (fundamental + 5 overtones) for rich, bell-like tone
+- Exponential decay envelope for natural fade
+- Lower fundamental frequency (330Hz) for deep, pleasant sound
 
 ## Screen Wake Lock
 - Keeps screen awake during active timer
