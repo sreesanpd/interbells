@@ -11,7 +11,7 @@ A Progressive Web App (PWA) for interval-based timed alerts. Users set a total d
 | Visual Timer | Large countdown display |
 | Interval Progress | Shows current interval (e.g., "Interval 2 of 3") |
 | Approximate Interval | Display "~Xs each" for uneven intervals |
-| Graduated Alerts | n rings (flexible based on interval count) |
+| Graduated Alerts | n rings + vibration (works on iOS screen-locked) |
 | Controls | Start, Pause, Reset buttons |
 | Dark Mode | Auto-detect system preference |
 | PWA Installable | Add to Home Screen on mobile |
@@ -46,6 +46,17 @@ Constraint:
 **Examples:**
 - 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound B x1 (3s long final ring)
 - 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound B x1 (3s long final ring)
+
+## Vibration Design (Backup for iOS screen-locked)
+| Interval | Pattern | Example (3 intervals) |
+|----------|---------|----------------------|
+| 1 to (n-1) | n short buzzes (200ms each, 200ms gap) | 1 buzz, 2 buzzes, 3 buzzes |
+| n (final) | 3 long buzzes (500ms each, 200ms gap) | 🔴🔴🔴 |
+
+**Platform Behavior:**
+- **Android**: Audio + vibration (both play)
+- **iOS unlocked**: Audio + vibration (both play)
+- **iOS locked**: Vibration only (works! Audio is blocked by iOS)
 
 ## File Structure
 ```
@@ -85,8 +96,8 @@ interbells/
 3. Sets number of intervals (e.g., 3)
 4. Taps "Start"
 5. Timer counts down
-6. At each interval: audio alert (n rings) + visual update
-7. At final interval: 1 long deep ring (different sound) + "Time's Up!"
+6. At each interval: audio alert (n rings) + vibration + visual update
+7. At final interval: 1 long deep ring (different sound) + vibration + "Time's Up!"
 
 ## Browser Compatibility
 - Chrome/Edge: Full support
