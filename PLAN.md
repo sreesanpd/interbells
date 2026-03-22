@@ -11,6 +11,7 @@ A Progressive Web App (PWA) for interval-based timed alerts. Users set a total d
 | Visual Timer | Large countdown display |
 | Interval Progress | Shows current interval (e.g., "Interval 2 of 3") |
 | Approximate Interval | Display "~Xs each" for uneven intervals |
+| Progress Bar | Horizontal bar depletes as time passes (helps prevent auto-lock) |
 | Graduated Alerts | n rings + vibration |
 | Screen Wake Lock | Screen stays on during timer |
 | Controls | Start, Pause, Reset buttons |

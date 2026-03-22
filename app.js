@@ -221,6 +221,7 @@ class Timer {
     this.currentInterval = 0;
     
     this.updateButtonStates();
+    this.updateProgressBar();
     this.startCountdown();
   }
 
@@ -235,11 +236,20 @@ class Timer {
       this.checkIntervals(initialRemaining - this.remainingSeconds);
       
       this.updateDisplay();
+      this.updateProgressBar();
       
       if (this.remainingSeconds <= 0) {
         this.complete();
       }
     }, 100);
+  }
+
+  updateProgressBar() {
+    if (this.totalSeconds > 0) {
+      const progress = this.remainingSeconds / this.totalSeconds;
+      const fill = document.getElementById('progressFill');
+      fill.style.width = (progress * 100) + '%';
+    }
   }
 
   checkIntervals(elapsedSeconds) {
@@ -281,6 +291,12 @@ class Timer {
     this.hideAlert();
     this.updateButtonStates();
     this.updateDisplay();
+    this.resetProgressBar();
+  }
+
+  resetProgressBar() {
+    const fill = document.getElementById('progressFill');
+    fill.style.width = '100%';
   }
 
   async complete() {

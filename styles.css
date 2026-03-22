@@ -121,6 +121,22 @@ select:focus {
   padding: 40px 20px;
 }
 
+.progress-bar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
 .time-left {
   font-size: 4rem;
   font-weight: 700;
