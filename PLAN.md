@@ -38,15 +38,14 @@ Constraint:
 ```
 
 ## Audio Design (Flexible)
-| Interval | Sound | Count |
-|----------|-------|-------|
-| 1 to (n-1) | Sound A: Mid tone (440Hz, 0.3s) | n rings |
-| n (final) | Sound B: Lower bass tone (220Hz, 0.8s) | n rings |
+| Interval | Sound | Count | Duration |
+|----------|-------|-------|----------|
+| 1 to (n-1) | Sound A: Mid tone (440Hz) | n rings | 0.3s each |
+| n (final) | Sound B: High pitch (880Hz) | 1 ring | 3.0s (long) |
 
 **Examples:**
-- 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound B x3 (final)
-- 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound B x4 (final)
-- 5 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound A x4, 5→ Sound B x5 (final)
+- 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound B x1 (3s long final ring)
+- 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound B x1 (3s long final ring)
 
 ## File Structure
 ```
@@ -87,7 +86,7 @@ interbells/
 4. Taps "Start"
 5. Timer counts down
 6. At each interval: audio alert (n rings) + visual update
-7. At final interval: n long rings (different sound) + "Time's Up!"
+7. At final interval: 1 long deep ring (different sound) + "Time's Up!"
 
 ## Browser Compatibility
 - Chrome/Edge: Full support

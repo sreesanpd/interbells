@@ -42,9 +42,10 @@ class AudioManager {
   playIntervalAlert(intervalNumber, totalIntervals) {
     const isFinal = intervalNumber === totalIntervals;
     const frequency = isFinal ? 880 : 440;
-    const duration = isFinal ? 1.0 : 0.3;
+    const duration = isFinal ? 3.0 : 0.3;
     const volume = isFinal ? 1.0 : 0.5;
-    this.playTone(frequency, duration, intervalNumber, volume);
+    const count = isFinal ? 1 : intervalNumber;
+    this.playTone(frequency, duration, count, volume);
   }
 }
 
