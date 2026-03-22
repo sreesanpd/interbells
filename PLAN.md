@@ -11,13 +11,13 @@ A Progressive Web App (PWA) for interval-based timed alerts. Users set a total d
 | Visual Timer | Large countdown display |
 | Interval Progress | Shows current interval (e.g., "Interval 2 of 3") |
 | Approximate Interval | Display "~Xs each" for uneven intervals |
-| Progress Bar | Horizontal bar depletes as time passes (helps prevent auto-lock) |
-| Graduated Alerts | n rings + vibration |
+| Progress Bar | Horizontal bar depletes as time passes (prevents auto-lock) |
+| Graduated Alerts | n rings (audio only) |
 | Screen Wake Lock | Screen stays on during timer |
 | Controls | Start, Pause, Reset buttons |
 | Dark Mode | Auto-detect system preference |
 | PWA Installable | Add to Home Screen on mobile |
-| Offline Support | Works via Service Worker |
+| Offline Support | Works via Service Worker | |
 
 ## Timer & Interval Math
 
@@ -48,14 +48,6 @@ Constraint:
 **Examples:**
 - 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound B x1 (3s long final ring)
 - 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound B x1 (3s long final ring)
-
-## Vibration Design (Backup)
-| Interval | Pattern | Example (3 intervals) |
-|----------|---------|----------------------|
-| 1 to (n-1) | n short buzzes (200ms each, 200ms gap) | 1 buzz, 2 buzzes, 3 buzzes |
-| n (final) | 3 long buzzes (500ms each, 200ms gap) | 🔴🔴🔴 |
-
-**Note:** Vibration works alongside audio. Screen Wake Lock keeps screen on so audio + vibration both work reliably.
 
 ## Screen Wake Lock
 - Keeps screen awake during active timer
@@ -101,8 +93,8 @@ interbells/
 3. Sets number of intervals (e.g., 3)
 4. Taps "Start"
 5. Timer counts down
-6. At each interval: audio alert (n rings) + vibration + visual update
-7. At final interval: 1 long deep ring (different sound) + vibration + "Time's Up!"
+6. At each interval: audio alert (n rings) + visual update
+7. At final interval: 1 long deep ring (different sound) + "Time's Up!"
 
 ## Browser Compatibility
 - Chrome/Edge: Full support

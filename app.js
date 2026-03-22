@@ -39,12 +39,6 @@ class AudioManager {
     }
   }
 
-  vibrate(pattern) {
-    if ('vibrate' in navigator) {
-      navigator.vibrate(pattern);
-    }
-  }
-
   playIntervalAlert(intervalNumber, totalIntervals) {
     const isFinal = intervalNumber === totalIntervals;
     const frequency = isFinal ? 880 : 440;
@@ -53,22 +47,6 @@ class AudioManager {
     const count = isFinal ? 1 : intervalNumber;
     
     this.playTone(frequency, duration, count, volume);
-    this.triggerVibration(intervalNumber, isFinal);
-  }
-
-  triggerVibration(intervalNumber, isFinal) {
-    if (isFinal) {
-      this.vibrate([500, 200, 500, 200, 500]);
-    } else {
-      const pattern = [];
-      for (let i = 0; i < intervalNumber; i++) {
-        pattern.push(200);
-        if (i < intervalNumber - 1) {
-          pattern.push(200);
-        }
-      }
-      this.vibrate(pattern);
-    }
   }
 }
 
