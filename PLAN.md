@@ -11,7 +11,8 @@ A Progressive Web App (PWA) for interval-based timed alerts. Users set a total d
 | Visual Timer | Large countdown display |
 | Interval Progress | Shows current interval (e.g., "Interval 2 of 3") |
 | Approximate Interval | Display "~Xs each" for uneven intervals |
-| Graduated Alerts | n rings + vibration (works on iOS screen-locked) |
+| Graduated Alerts | n rings + vibration |
+| Screen Wake Lock | Screen stays on during timer |
 | Controls | Start, Pause, Reset buttons |
 | Dark Mode | Auto-detect system preference |
 | PWA Installable | Add to Home Screen on mobile |
@@ -47,16 +48,19 @@ Constraint:
 - 3 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound B x1 (3s long final ring)
 - 4 intervals: 1→ Sound A x1, 2→ Sound A x2, 3→ Sound A x3, 4→ Sound B x1 (3s long final ring)
 
-## Vibration Design (Backup for iOS screen-locked)
+## Vibration Design (Backup)
 | Interval | Pattern | Example (3 intervals) |
 |----------|---------|----------------------|
 | 1 to (n-1) | n short buzzes (200ms each, 200ms gap) | 1 buzz, 2 buzzes, 3 buzzes |
 | n (final) | 3 long buzzes (500ms each, 200ms gap) | 🔴🔴🔴 |
 
-**Platform Behavior:**
-- **Android**: Audio + vibration (both play)
-- **iOS unlocked**: Audio + vibration (both play)
-- **iOS locked**: Vibration only (works! Audio is blocked by iOS)
+**Note:** Vibration works alongside audio. Screen Wake Lock keeps screen on so audio + vibration both work reliably.
+
+## Screen Wake Lock
+- Keeps screen awake during active timer
+- Uses Wake Lock API (native browser feature)
+- Automatically releases when timer ends or app is backgrounded
+- Re-acquires wake lock when app returns to foreground
 
 ## File Structure
 ```

@@ -72,9 +72,43 @@ class AudioManager {
   }
 }
 
+class WakeLock {
+  constructor() {
+    this.sentinel = null;
+  }
+
+  async request() {
+    if ('wakeLock' in navigator) {
+      try {
+        this.sentinel = await navigator.wakeLock.request('screen');
+      } catch (err) {
+        console.log('Wake Lock not available:', err);
+      }
+    }
+  }
+
+  async release() {
+    if (this.sentinel) {
+      try {
+        await this.sentinel.release();
+      } catch (err) {
+        console.log('Wake Lock release error:', err);
+      }
+      this.sentinel = null;
+    }
+  }
+
+  async reacquire() {
+    if (this.sentinel === null && 'wakeLock' in navigator) {
+      await this.request();
+    }
+  }
+}
+
 class Timer {
   constructor() {
     this.audio = new AudioManager();
+    this.wakeLock = new WakeLock();
     this.isRunning = false;
     this.intervalId = null;
     this.totalSeconds = 0;
@@ -86,6 +120,15 @@ class Timer {
     this.loadSettings();
     this.bindEvents();
     this.updateDisplay();
+    this.setupVisibilityHandler();
+  }
+
+  setupVisibilityHandler() {
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState === 'visible' && this.isRunning) {
+        await this.wakeLock.reacquire();
+      }
+    });
   }
 
   loadSettings() {
@@ -158,7 +201,7 @@ class Timer {
     }
   }
 
-  start() {
+  async start() {
     if (this.isRunning) return;
     
     const mins = parseInt(document.getElementById('minutes').value) || 0;
@@ -173,6 +216,7 @@ class Timer {
 
     this.isRunning = true;
     this.audio.init();
+    await this.wakeLock.request();
     this.alertedIntervals.clear();
     this.currentInterval = 0;
     
@@ -217,18 +261,20 @@ class Timer {
     }
   }
 
-  pause() {
+  async pause() {
     if (!this.isRunning) return;
     
     this.isRunning = false;
     clearInterval(this.intervalId);
+    await this.wakeLock.release();
     this.updateButtonStates();
     this.updateDisplay();
   }
 
-  reset() {
+  async reset() {
     this.isRunning = false;
     clearInterval(this.intervalId);
+    await this.wakeLock.release();
     this.remainingSeconds = 0;
     this.currentInterval = 0;
     this.alertedIntervals.clear();
@@ -237,8 +283,8 @@ class Timer {
     this.updateDisplay();
   }
 
-  complete() {
-    this.pause();
+  async complete() {
+    await this.pause();
     this.remainingSeconds = 0;
     this.currentInterval = this.numIntervals;
     this.audio.playComplete();
