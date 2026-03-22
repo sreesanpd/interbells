@@ -1,10 +1,11 @@
-const CACHE_NAME = 'interbells-v1';
+const CACHE_NAME = 'interbells-v2';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/manifest.json'
+  '/interbells/',
+  '/interbells/index.html',
+  '/interbells/styles.css',
+  '/interbells/app.js',
+  '/interbells/manifest.json',
+  '/interbells/sw.js'
 ];
 
 self.addEventListener('install', event => {
